@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela Verdade - Análise Lógica</title>
+</head>
+<body>
+    <script>
+        // Funções para verificar as condições lógicas
+        function condicao1(P, Q) {
+            return !P || Q; // P → Q
+        }
+
+        function condicao2(P, Q, R) {
+            return (P || Q) ? R : true; // (P ∨ Q) → R
+        }
+
+        function condicao3(P, M, R) {
+            return !P ? (!M || R) : true; // ¬P → (M → R)
+        }
+
+        // Gera a tabela verdade e verifica as condições
+        function gerarTabelaVerdade() {
+            const resultados = [];
+            const valores = [true, false];
+
+            for (let P of valores) {
+                for (let Q of valores) {
+                    for (let M of valores) {
+                        for (let R of valores) {
+                            const c1 = condicao1(P, Q);
+                            const c2 = condicao2(P, Q, R);
+                            const c3 = condicao3(P, M, R);
+
+                            // Todas as condições precisam ser verdadeiras para satisfazer o caso
+                            const satisfazCondicoes = c1 && c2 && c3;
+
+                            resultados.push({ P, Q, M, R, c1, c2, c3, satisfazCondicoes });
+                        }
+                    }
+                }
+            }
+
+            return resultados;
+        }
+
+        // Exibe a tabela verdade no console
+        function exibirTabela() {
+            const tabela = gerarTabelaVerdade();
+            console.log("P | Q | M | R | C1 | C2 | C3 | Satisfaz Condições");
+            console.log("--------------------------------------------");
+            tabela.forEach(linha => {
+                console.log(
+                    `${linha.P ? 'V' : 'F'} | ${linha.Q ? 'V' : 'F'} | ${linha.M ? 'V' : 'F'} | ${linha.R ? 'V' : 'F'} | ` +
+                    `${linha.c1 ? 'V' : 'F'} | ${linha.c2 ? 'V' : 'F'} | ${linha.c3 ? 'V' : 'F'} | ` +
+                    `${linha.satisfazCondicoes ? 'V' : 'F'}`
+                );
+            });
+        }
+
+        // Chama a função para exibir a tabela
+        exibirTabela();
+    </script>
+</body>
+</html>
